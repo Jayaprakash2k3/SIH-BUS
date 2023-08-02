@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+{% include "modules/header.html" %}
+
+<body class="nk-body bg-lighter npc-default has-sidebar ">
+  <div class="nk-app-root">
+    <!-- main @s -->
+    <div class="nk-main ">
+      <!-- sidebar @s -->
+      {% include "modules/sideBar.html" %}
+      <!-- sidebar @e -->
+      <!-- wrap @s -->
+
+      <div class="nk-wrap ">
+        <div id="map"></div>
+
+        <!-- wrap @e -->
+      </div>
+
+      <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+
+    <script src="static/assets/js/bundle.js?ver=3.2.0"></script>
+    <script src="static/assets/js/scripts.js?ver=3.2.0"></script>
+    <script src="static/assets/js/example-sweetalert.js?ver=3.2.0"></script>
+    <script src="static/assets/js/floor.js?ver=3.2.0"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+      id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Building Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body container-fluid">
+        <div class="card text-white bg-primary row">
+          <div class="card-header">DAC</div>
+          <div class="card-inner">
+            <h5 class="card-title" id="DAC-head">XXXX-YYYY-ZZ</h5>
+            <p class="card-text" id="desc-addr"></p>
+            <div class="container-fluid row">
+            <span class="badge badge-md bg-warning col m-2 p-2" id="lat">00</span>
+            <span class="badge badge-md bg-warning col m-2 p-2" id="lng">00</span>
+          </div>
+          </div>
+        </div>
+        <div id="edit" class="row p-5 justify-content-around text-center">
+        <button href="#" class="btn  btn-success mx-1 col text-center" id="edtDim">Edit Dimension</button>
+        <button href="#" class="btn  btn-info mx-1 col text-center" data-bs-toggle="offcanvas" data-bs-target="#floorsO"
+        aria-controls="floorsO" id="edtFlr">Edit Floor</button>  
+        </div>
+        <div id="save" class="row p-5 justify-content-around text-center" hidden>
+          <button href="#" class="btn  btn-success mx-1 col text-center" id="saveDim">Save</button>
+          </div>
+      </div>
+    </div>
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    id="floorsO" aria-labelledby="floorsOLabel" style="width: 700px;">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title text-center" id="floorsOLabel">Building View</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+      <div id="frontView">
+      <div class="row justify-content-center align-items-end ">
+      <div class="col">
+  <img src="https://cdn-icons-png.flaticon.com/128/685/685025.png">
+</div>
+      <div class="col-6 ">
+        <div class="container">
+          <div class="container  justify-content-around py-2" style="min-height:30px; background-color: #4398D1; border-top-left-radius:10px; border-top-right-radius: 10px;">
+          </div>
+          <div class="row justify-content-around py-2" style="min-height:70px;background-color: #4398D1;">
+            
+           <button class="btn mx-5 text-bold font-bold" style="background-color: #87CED9;" onclick="addFloor()">
+            + Add New Floor
+           </button>
+          </div>
+          <div id="floors">
+          <div class="floor row justify-content-around py-2" style="min-height:70px;" onclick="floorClicked()">
+
+            <div class="col-3" style="background-color: #87CED9;">
+              &nbsp;
+            </div>
+            <div class="col-3" style="background-color: #87CED9;">
+              &nbsp;
+            </div>
+            <div class="col-3" style="background-color: #87CED9;">
+              &nbsp;
+            </div>
+  
+          </div>
+        </div>
+          <div class="row justify-content-around py-2" style="min-height:30px; background-color:#4398D1 ;">
+  
+          </div>
+          <div class="row  d-flex justify-content-around " style="min-height:70px; background-color: #4398D1;">
+            <div class="container d-flex justify-content-around " style="width: 50%; background-color: #87CED9;">
+              <div class="container" style="width: 10px;background-color: #61ACC9;">
+                &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+  <img src="https://cdn-icons-png.flaticon.com/128/685/685025.png">
+</div>
+    </div>
+    <div class="row" style="min-height:10px; background-color: #E2926F; "></div>
+  </div>
+  <div id="topView" hidden>
+    <div class="container-fluid">
+      <div class="topView container-fluid" style="min-height:70px;" onclick="floorClicked()">
+<div id="rooms" class="row justify-content-around py-2">
+  <div class="room col-3 font-bold text-center h3 text-white" style="background-color:brown;">
+    1
+  </div>
+</div>
+      </div>
+      <br>
+      <div class="row">
+        <button onclick="addRoom()" class="col btn btn-primary">+ Add Room</button>
+        <button onclick="frontView()" class="col btn btn-danger"> &lt; Back</button>
+      </div>
+    </div>
+    
+
+  </div>
+  </div>
+  </div>
+    <a href="#" class="btn btn-success eg-toastr-success">Success</a>
+</body>
+
+</html>

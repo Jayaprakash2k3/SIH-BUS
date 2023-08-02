@@ -38,7 +38,10 @@ async function initMap() {
         dac: element.properties.name,
         lat: element.properties.lat,
         lng: element.properties.lng,
-        iit: element.properties.IIT
+        iit: element.properties.IIT,
+        apr: false,
+        govt: false,
+        comm: false
       });
       curr.setMap(map);
       const priceTag = document.createElement("div");
@@ -77,6 +80,10 @@ async function initMap() {
         const offcanvas = new bootstrap.Offcanvas(document.getElementById("offcanvasScrolling"));
         offcanvas.show();
         document.getElementById("DAC-head").innerHTML = curr.dac;
+        document.getElementById("apartmentChk").checked = curr.apr;
+        document.getElementById("commercial").checked = curr.comm;
+        document.getElementById("govt").checked = curr.govt;
+
         prev = curr;
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode({ location: { lat: event.latLng.lat(), lng: event.latLng.lng() } }, (results, status) => {
@@ -118,7 +125,15 @@ async function initMap() {
         }
         document.getElementById("edtDim").addEventListener("click", editClk)
         document.getElementById("save").addEventListener("click",saveClk)
-          
+        document.getElementById("apartmentChk").addEventListener("change", (event) => {
+          curr.setOptions({apr: event.target.checked});
+        });
+        document.getElementById("commercial").addEventListener("change", (event) => {
+          curr.setOptions({comm: event.target.checked});
+        });
+        document.getElementById("govt").addEventListener("change", (event) => {
+          curr.setOptions({govt: event.target.checked});
+        });
     
       })
   
@@ -153,7 +168,8 @@ async function initMap() {
     //     }
     //   });
       });
-    map.data.addListener("click", (event) => {
+  map.data.addListener("click", (event) => {
+        
         const payload = { lat:event.latLng.lat(), lng: event.latLng.lng()  };
         const url = new URL("http://127.0.0.1:5000/");
         Object.keys(payload).forEach((key) => url.searchParams.append(key, payload[key]));
@@ -194,7 +210,7 @@ async function initMap() {
              });
             
            })   
-        
+           
            
     })
   
